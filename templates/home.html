@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Elegant To-Do List{% endblock %}
+
+{% block content %}
+    <h1>Your Elegant To-Do List</h1>
+    
+    <form class="add-form" action="{{ url_for('add_item') }}" method="post">
+        <input type="text" name="content" placeholder="Add a new task" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <ul class="todo-list">
+        {% for todo in todos %}
+        <li class="todo-item {{ 'completed' if todo.completed else '' }}">
+            <span class="todo-content">{{ todo.content }}</span>
+            <div class="todo-actions">
+                <small>Created: {{ todo.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                <a href="{{ url_for('toggle_item', id=todo.id) }}" class="btn btn-toggle">
+                    {{ 'Undo' if todo.completed else 'Complete' }}
+                </a>
+                <a href="{{ url_for('delete_item', id=todo.id) }}" class="btn btn-delete">Delete</a>
+                <button onclick="showUpdateForm({{ todo.id }})" class="btn btn-edit">Edit</button>
+            </div>
+        </li>
+        <li id="update-form-{{ todo.id }}" class="update-form" style="display: none;">
+            <form action="{{ url_for('update_item', id=todo.id) }}" method="post">
+                <input type="text" name="content" value="{{ todo.content }}" required>
+                <button type="submit" class="btn btn-update">Update</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        function showUpdateForm(id) {
+            document.getElementById('update-form-' + id).style.display = 'block';
+        }
+    </script>
+{% endblock %}

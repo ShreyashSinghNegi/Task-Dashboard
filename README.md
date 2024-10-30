@@ -1,4 +1,4 @@
-# Flask Task-Dashboard Application
+# Flask Task-Dashboard (to do list ) Application
 
 A secure and feature-rich Task-Dashboard web application built with Flask, SQLAlchemy, and SQLite. This application allows users to manage their daily tasks with user authentication and persistent storage.
 
